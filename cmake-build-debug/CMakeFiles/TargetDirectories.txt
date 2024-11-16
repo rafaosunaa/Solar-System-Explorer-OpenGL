@@ -1,0 +1,3 @@
+C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/CMakeFiles/pr1.dir
+C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/CMakeFiles/rebuild_cache.dir
