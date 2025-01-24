@@ -19,7 +19,7 @@
                 "CMAKE_BUILD_TYPE": "Debug"
             },
             "toolchainFile": "generators\\conan_toolchain.cmake",
-            "binaryDir": "C:\\Users\\rafao\\Desktop\\INFORMATICA\\INGENIERIA_INFORMATICA\\3\u00ba\\InformaticaGraficaVisual\\24-25\\SistemaSolar\\cmake-build-debug\\conan\\build\\Debug"
+            "binaryDir": "C:\\Users\\rafao\\Desktop\\INFORMATICA\\INGENIERIA_INFORMATICA\\3\u00ba\\InformaticaGraficaVisual\\24-25\\Proyecto\\SistemaSolar\\cmake-build-debug\\conan\\build\\Debug"
         }
     ],
     "buildPresets": [

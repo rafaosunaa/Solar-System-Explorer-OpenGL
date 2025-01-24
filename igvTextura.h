@@ -51,21 +51,24 @@ public:
    */
     igvTextura(const std::string rutaImagen, double tamImagen);
 
-    /**
-    * Método que define el fondo de la escena.
-    * Trata de una esfera donde se ubicarán todos los planetas.
-    */
+ /**
+ * @brief Método que define el fondo de la escena.
+ *
+ * Este método configura una esfera que servirá como fondo de la escena, sobre la cual
+ * se ubicarán los planetas y otros objetos. La esfera se dibuja con una textura y se puede
+ * manipular su tamaño.
+ */
     void fondo();
 
 private:
-    //Planetas
-    igvTextura(const igvTextura& textura) {}
-	void operator=(const igvTextura& textura) {}
-	GLuint textura;
+    // Planetas
+    igvTextura(const igvTextura& textura) {} ///< Constructor de copia privado.
+    void operator=(const igvTextura& textura) {} ///< Operador de asignación privado.
+    GLuint textura; ///< Identificador de la textura cargada para objetos.
 
-    //Fondo
-    igvTextura *texturaFondo;
-    double tamFondo;
+    // Fondo
+    igvTextura *texturaFondo; ///< Objeto que representa la textura de fondo.
+    double tamFondo; ///< Tamaño del fondo (esfera).
 
 
 };

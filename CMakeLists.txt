@@ -9,13 +9,21 @@ add_executable(${PROJECT_NAME}
         SistemaSolar.cpp
         Planeta.h
         Planeta.cpp
-        stb_image.c
         igvTextura.cpp
         SistemaSolar.cpp
         Main.cpp
         Main.cpp
         Main.cpp
         SistemaSolar.h
+        Camara.cpp
+        Camara.h
+        Camara.h
+        lodepng.h
+        lodepng.h
+        lodepng.cpp
+        NodoGrafoEscena.h
+        GrafoSatelite.cpp
+        GrafoSatelite.cpp
 )
 
 if (LINUX)

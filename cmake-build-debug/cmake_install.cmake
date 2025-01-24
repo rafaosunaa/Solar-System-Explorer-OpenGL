@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/SistemaSolar
+# Install script for directory: C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3º/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

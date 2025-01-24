@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug"
+			"value" : "c:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -575,7 +575,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -647,7 +647,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1303,7 +1303,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
@@ -1327,7 +1327,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
 		},
 		{
 			"name" : "khrplatform_DIR",
@@ -1339,7 +1339,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
 		},
 		{
 			"name" : "opengl-registry_DIR",
@@ -1351,7 +1351,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
 		},
 		{
 			"name" : "opengl_system_DIR",
@@ -1363,7 +1363,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug/conan/build/Debug/generators"
 		},
 		{
 			"name" : "pr1_BINARY_DIR",
@@ -1375,7 +1375,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar/cmake-build-debug"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar/cmake-build-debug"
 		},
 		{
 			"name" : "pr1_IS_TOP_LEVEL",
@@ -1399,7 +1399,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/SistemaSolar"
+			"value" : "C:/Users/rafao/Desktop/INFORMATICA/INGENIERIA_INFORMATICA/3\u00ba/InformaticaGraficaVisual/24-25/Proyecto/SistemaSolar"
 		}
 	],
 	"kind" : "cache",

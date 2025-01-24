@@ -1,87 +1,111 @@
 #include "igvTextura.h"
-#include "stb_image.h"
+#include "lodepng.h"
 #include <iostream>
 
-
 /**
- * Constructor que carga una imagen desde un archivo que se convertira en una textura para aplicarla a un objeto
- * @param imagenTextura ruta de la imagen que sera la textura a usar
+ * Constructor que carga una imagen PNG desde un archivo y la convierte en una textura para OpenGL.
+ * @param imagenTextura Ruta de la imagen que será la textura a usar.
  */
 igvTextura::igvTextura(const std::string& imagenTextura)
 {
-	int ancho;
-    int alto;
-    int nComponentes;
-    unsigned char* data = stbi_load((imagenTextura).c_str(), &ancho, &alto, &nComponentes, 4);
+    std::vector<unsigned char> data; // Vector para almacenar los datos de la imagen
+    unsigned ancho, alto;
 
-    //Generamos un identificador para la textura
-    //Asociamos el identificar y la textura para aplicar todas las operaciones sobre esta
+    // Decodifica la imagen PNG
+    unsigned error = lodepng::decode(data, ancho, alto, imagenTextura.c_str());
+    if (error) {
+        std::cerr << "Error cargando la imagen PNG (" << imagenTextura << "): "
+                  << lodepng_error_text(error) << std::endl;
+        return; // Salir si hubo un error
+    }
+
+    // Genera un identificador para la textura
     glGenTextures(1, &textura);
     glBindTexture(GL_TEXTURE_2D, textura);
 
-    //Modo evoltura de textura horizontal y vertical
+    // Modo envoltura de textura horizontal y vertical
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    //Se aplica filtrado lineal, y filtro de textura para minimizacion y magnificacion
-    //ASi se ve bien en diferentes escalas
+    // Filtrado lineal para minimizar y maximizar
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    //Carga los datos de la imagen en la textura asociada
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-    //Libera la memoria usada de la imagen
-    stbi_image_free(data);
+    // Carga los datos de la imagen en la textura
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 }
-
 
 /**
  * Destructor
  */
 igvTextura::~igvTextura()
 {
-	glDeleteTextures(1, &textura);
+    glDeleteTextures(1, &textura);
 }
-
 
 /**
  * Método que asocia la textura almacenada para las operaciones de dibujo posteriores
  */
 void igvTextura::asociarTextura()
 {
-	glBindTexture(GL_TEXTURE_2D, textura);
+    glBindTexture(GL_TEXTURE_2D, textura);
 }
 
-
-
-igvTextura::igvTextura(const std::string rutaImagen, double tamImagen):
-        texturaFondo(new igvTextura(rutaImagen)),
-        tamFondo(tamImagen) {
-
-}
-
+/**
+ * Constructor adicional para inicializar con fondo.
+ */
+igvTextura::igvTextura(const std::string rutaImagen, double tamImagen)
+    : texturaFondo(new igvTextura(rutaImagen)), tamFondo(tamImagen) {}
 
 
 
 /**
-* @brief Dibuja el fondo de la escena utilizando una esfera
- * Esta función se encarga de dibujar el fondo de la escena mediante una esfera ,utilizando una textura asignada al fondo de la escena.
+ * @brief Configura y dibuja una esfera como fondo, aplicando textura, iluminación y material.
+ *
+ * Este método crea una esfera , configurando la textura, iluminación,
+ * y el material antes de dibujarla. La esfera se dibuja en un plano 3D con iluminación, normales,
+ * y textura aplicadas. Se utiliza la primera luz disponible y se configura el material difuso y especular
+ * de la esfera.
  */
-void igvTextura::fondo() {
-    GLUquadric *qobj = gluNewQuadric();
+void igvTextura::fondo()
+{
+    GLUquadric* qobj = gluNewQuadric();
     gluQuadricOrientation(qobj, GLU_INSIDE);
     gluQuadricTexture(qobj, GL_TRUE);
-    glEnable(GL_TEXTURE_2D);
 
-    glRotated(270.0f, 1.0f, 0.0f, 0.0f); // Rota la esfera para ajustar la orientación
-    texturaFondo->asociarTextura(); // Asocia la textura al fondo
+    // Configura las normales para el sombreado de Gouraud
+    gluQuadricNormals(qobj, GLU_SMOOTH);
+
+    // Activar iluminación
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0); // Usar la primera luz
+
+    // Configuración básica de la luz
+    GLfloat luzPosicion[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Posición de la luz
+    GLfloat luzDifusa[] = { 1.0f, 1.0f, 1.0f, 1.0f };   // Componente difusa
+    GLfloat luzEspecular[] = { 0.5f, 0.5f, 0.5f, 1.0f }; // Componente especular
+    glLightfv(GL_LIGHT0, GL_POSITION, luzPosicion);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
+
+    // Configura el material
+    GLfloat materialDifuso[] = { 0.8f, 0.8f, 0.8f, 1.0f }; // Material difuso
+    GLfloat materialEspecular[] = { 0.3f, 0.3f, 0.3f, 1.0f }; // Material especular
+    GLfloat brillo[] = { 50.0f }; // Brillo del material
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDifuso);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, materialEspecular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, brillo);
+
+    glEnable(GL_TEXTURE_2D);
+    texturaFondo->asociarTextura();
 
     glPushMatrix();
-    gluSphere(qobj, tamFondo, 30, 30); // Dibuja la esfera con la textura asignada
+    glRotated(270.0f, 1.0f, 0.0f, 0.0f); // Rota la esfera
+    gluSphere(qobj, tamFondo, 30, 30);  // Dibuja la esfera con normales y textura
     glPopMatrix();
 
-    glDisable(GL_TEXTURE_2D); // Deshabilita la textura después de su uso
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING); // Desactiva la iluminación después de usarla
     gluDeleteQuadric(qobj);
-    glPopMatrix();
 }
+

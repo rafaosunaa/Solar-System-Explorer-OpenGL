@@ -12,16 +12,6 @@
 # =============================================================================
 
 #############################################
-# Rule for compiling C files.
-
-rule C_COMPILER__pr1_unscanned_Debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}C:\Users\rafao\AppData\Local\JETBRA~1\CLION2~1.4\bin\mingw\bin\gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
 # Rule for compiling CXX files.
 
 rule CXX_COMPILER__pr1_unscanned_Debug
@@ -52,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Users\rafao\AppData\Local\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\rafao\Desktop\INFORMATICA\INGENIERIA_INFORMATICA\3º\InformaticaGraficaVisual\24-25\SistemaSolar -BC:\Users\rafao\Desktop\INFORMATICA\INGENIERIA_INFORMATICA\3º\InformaticaGraficaVisual\24-25\SistemaSolar\cmake-build-debug
+  command = "C:\Users\rafao\AppData\Local\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\rafao\Desktop\INFORMATICA\INGENIERIA_INFORMATICA\3º\InformaticaGraficaVisual\24-25\Proyecto\SistemaSolar -BC:\Users\rafao\Desktop\INFORMATICA\INGENIERIA_INFORMATICA\3º\InformaticaGraficaVisual\24-25\Proyecto\SistemaSolar\cmake-build-debug
   description = Re-running CMake...
   generator = 1
 

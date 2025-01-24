@@ -7,49 +7,60 @@
 /**
  * @brief Constructor de la clase Planeta.
  * @param nombre Nombre del planeta.
- * @param aphelion Distancia m醲ima del planeta al Sol.
- * @param perihelion Distancia m韓ima del planeta al Sol.
- * @param periodoOrbital Tiempo en a駉s que tarda el planeta en completar una 髍bita alrededor del Sol.
- * @param periodoRotacion Tiempo que tarda el planeta en completar una rotaci髇 sobre su eje.
+ * @param aphelion Distancia m锟絰ima del planeta al Sol.
+ * @param perihelion Distancia m锟絥ima del planeta al Sol.
+ * @param periodoOrbital Tiempo en a锟給s que tarda el planeta en completar una 锟絩bita alrededor del Sol.
+ * @param periodoRotacion Tiempo que tarda el planeta en completar una rotaci锟絥 sobre su eje.
  * @param rutaImagen Ruta de la imagen que representa el planeta.
- * @param tamano Tama駉 del planeta.
- * @param inclinacion 羘gulo de inclinaci髇 orbital del planeta respecto al plano de la ecl韕tica.
- * @param satelite Puntero al planeta sat閘ite (si lo tiene).
+ * @param tamano Tama锟給 del planeta.
+ * @param inclinacion 锟絥gulo de inclinaci锟絥 orbital del planeta respecto al plano de la ecl锟絧tica.
+ * @param satelite Puntero al planeta sat锟絣ite (si lo tiene).
  */
-Planeta::Planeta(string nombre, double aphelion, double perihelion, double periodoOrbital,
-                 double periodoRotacion,
-                 string rutaImagen, double tamano, double inclinacion, Planeta *satelite):
-        textura(new igvTextura(rutaImagen)),
-        rotacion(periodoRotacion),
-        nombre(nombre),
-        aphelion(aphelion),
-        ubicacionActualEje(0),
-        perihelion(perihelion),
-        periodoOrbital(periodoOrbital),
-        rutaImagen(rutaImagen),
-        tamano(tamano),
-        satelite(satelite),
-        inclinacionZ(inclinacion),
-        inclinacionY(rand() % 180)
-{
-
+Planeta::Planeta(const std::string &nombre, float aphelion, float perihelion, float periodoOrbital,
+                 float periodoRotacion, const std::string &rutaImagen, float tamano, Planeta *padre)
+    : nombre(nombre), aphelion(aphelion), perihelion(perihelion), periodoOrbital(periodoOrbital),
+      rotacion(periodoRotacion), inclinacionY(0), inclinacionZ(0), tamano(tamano), radio(0),
+      velocidadOrbital(0), tiempoDelta(0), ubicacionActualEje(0), ubicacionActualSistema(0),
+      pX(0), pY(0), pZ(0), rutaImagen(rutaImagen), textura(new igvTextura(rutaImagen)),
+      satelite(nullptr), padre(padre) {
+    if (padre) {
+        padre->hijos.push_back(this);
+    }
 }
 
 
 /**
- * Destructor
+ * @brief Destructor de la clase Planeta.
+ * Libera la memoria ocupada por la textura y el sat茅lite, si existen.
  */
 Planeta::~Planeta() {
     delete textura;
     delete satelite;
 }
 
+/**
+ * @brief Establece un nuevo padre para el planeta y lo agrega a la lista de hijos del nuevo padre.
+ * @param nuevoPadre El nuevo planeta padre del planeta actual.
+ */
+void Planeta::set_padre(Planeta *nuevoPadre) {
+    padre = nuevoPadre;
+    if (nuevoPadre) {
+        nuevoPadre->hijos.push_back(this);
+    }
+}
 
 /**
- * @brief Calcula la 髍bita del planeta.
- * calcula la posici髇 del planeta bas醤dose en el grado de rotaci髇.
- * @param grado Grado de rotaci髇 para simular el movimiento.
- * @param escalaRotacionEje Escala de rotaci髇 del eje.
+ * @brief Obtiene la lista de los planetas hijos del planeta actual.
+ * @return Un vector de punteros a los planetas hijos.
+ */
+std::vector<Planeta *> Planeta::get_hijos() const {
+    return hijos;
+}
+
+/**
+ * @brief Calcula la 贸rbita del planeta y actualiza su posici贸n en el sistema solar.
+ * @param grado Grado de rotaci贸n utilizado para simular el movimiento del planeta.
+ * @param escalaRotacionEje Escala de la rotaci贸n del eje del planeta.
  */
 void Planeta::Orbita(double grado, double escalaRotacionEje)
 {
@@ -60,144 +71,205 @@ void Planeta::Orbita(double grado, double escalaRotacionEje)
     ubicacionActualEje = ubicacionActualEje > 360 ? ubicacionActualEje - 360 : ubicacionActualEje;
 }
 
-
 /**
- * Metodo que dibuja un planeta co nsus caracteristicas
+ * @brief Dibuja el planeta con sus caracter铆sticas, incluyendo su 贸rbita, textura y posici贸n.
  */
-void Planeta::dibujarPlaneta()
-{
-    // Definici髇 de la posici髇 de la luz y del ambiente
+void Planeta::dibujarPlaneta() {
+    // Definici贸n de la posici贸n de la luz y del ambiente
     GLfloat posicion[] = {-2.0, 0.0, 0.0, 1.0};
-    GLfloat luzAmbiente[] = {0.3, 0.3, 0.3, 1.0};
-
     const double pi = 3.1416;
     const double gradosARadianes = 57.29577951;
+
+    // C谩lculo del desplazamiento en la 贸rbita
     double trasladoSistemaX = 0.05 * (aphelion + perihelion);
     double trasladoSistemaZ = 0.05 * (aphelion + perihelion);
 
-
-
-
-    // Determinar la posici髇 del planeta en funci髇 de su ubicaci髇 en la 髍bita
-    if(nombre == "Sol")
-        pX = -2;
-    else
+    // Determinar la posici贸n del planeta en funci贸n de su 贸rbita
+    if (nombre == "Sol") {
+        pX = -2.0;
+    } else {
         pX = -cos((double)(ubicacionActualSistema / gradosARadianes + pi)) * trasladoSistemaX;
-
-    pY = 0;
-
-    if(satelite == NULL)
-        pZ = sin((double)(ubicacionActualSistema / gradosARadianes + pi)) * trasladoSistemaZ;
-    else
-        pZ = sin((double)(ubicacionActualSistema / gradosARadianes + pi)) * trasladoSistemaX;
-
-    // Configuraci髇 de las luces
-    if(nombre == "Sol")
-    {
-        glLightfv(GL_LIGHT0, GL_POSITION, posicion);
-        glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
     }
-    else
-    {
+    pY = 0.0;
+    if (satelite == nullptr) {
+        pZ = sin((double)(ubicacionActualSistema / gradosARadianes + pi)) * trasladoSistemaZ;
+    } else {
+        pZ = sin((double)(ubicacionActualSistema / gradosARadianes + pi)) * trasladoSistemaX;
+    }
+
+    // Configuraci贸n de las luces
+    if (nombre == "Sol") {
+        glLightfv(GL_LIGHT0, GL_POSITION, posicion);
+    } else {
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
-        //glEnable(GL_LIGHT1);
-        if(satelite == NULL)
-        {
-            pX += -(trasladoSistemaX + trasladoSistemaZ) / 3;
-        }
     }
 
-    if(satelite != NULL)
-    {
+    // Ajustar la posici贸n si no es un sat茅lite
+    if (satelite == nullptr) {
+        pX += -(trasladoSistemaX + trasladoSistemaZ) / 3.0;
+    }
+
+    // Si es un sat茅lite, se traslada a la posici贸n de su planeta padre
+    if (satelite != nullptr) {
         glPushMatrix();
         glTranslated(satelite->pX, satelite->pY, satelite->pZ);
     }
 
-    // Se dibuja la 髍bita si no es el Sol y no tiene sat閘ite
+    // Dibujar la 贸rbita si no es el Sol y no es un sat茅lite
     glPushMatrix();
-    if(satelite == NULL && nombre != "Sol")
-    {
-        glTranslated(-(trasladoSistemaX + trasladoSistemaZ) / 3, 0, 0);
-        glScaled(1, 1, trasladoSistemaZ / trasladoSistemaX);
+    if (satelite == nullptr && nombre != "Sol") {
+        glTranslated(-(trasladoSistemaX + trasladoSistemaZ) / 3.0, 0.0, 0.0);
+        glScaled(1.0, 1.0, trasladoSistemaZ / trasladoSistemaX);
         glRotated(90, 1.0, 0.0, 0.0);
-
 
         glDisable(GL_LIGHTING);
         glColor3f(0.1f, 0.3f, 0.5f);
-        dibujarEsfera(trasladoSistemaX);
+        dibujarEsfera(trasladoSistemaX); // Dibuja la 贸rbita como una esfera
         glColor3f(1.0f, 1.0f, 1.0f);
         glEnable(GL_LIGHTING);
-
     }
     glPopMatrix();
 
-    // Se establece la inclinaci髇 del planeta si tiene sat閘ite
+    // Establecer inclinaci贸n si es un sat茅lite
     glPushMatrix();
-    if(satelite != NULL)
-    {
-        glRotated(inclinacionY, 0, 1, 0);
-        glRotated(inclinacionZ, 1, 0, 0);
+    if (satelite != nullptr) {
+        glRotated(inclinacionY, 0.0, 1.0, 0.0);
+        glRotated(inclinacionZ, 1.0, 0.0, 0.0);
     }
     glTranslated(pX, pY, pZ);
 
-    //se crea el planeta
+    // Dibujar el planeta
     GLUquadric *qobj = gluNewQuadric();
     gluQuadricTexture(qobj, GL_TRUE);
     glEnable(GL_TEXTURE_2D);
 
-    glRotated(270.0f, 1.0f, 0.0f, 0.0f);
-    textura->asociarTextura();// Asociar la textura al planeta
+    glRotated(270.0, 1.0, 0.0, 0.0);
+    textura->asociarTextura(); // Asociar la textura al planeta
 
     glPushMatrix();
-    glRotated(ubicacionActualEje, 0, 0, 1);
-    gluSphere(qobj, tamano/3, 30, 30);// Dibuja el planeta
+    glRotated(ubicacionActualEje, 0, 0, 1); // Rotaci贸n propia del planeta
+    gluSphere(qobj, tamano / 3.0, 60, 60); // Dibuja el planeta
     glPopMatrix();
 
     glDisable(GL_TEXTURE_2D);
     gluDeleteQuadric(qobj);
 
-    //No aplicamos luces si se trata del sol
-    if(nombre != "Sol")
-    {
+    // Deshabilitar luces si no es el Sol
+    if (nombre != "Sol") {
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
     }
     glPopMatrix();
 
-
-
-
-    if(satelite != NULL)
-    {
+    // Si es un sat茅lite, restaurar la matriz previa
+    if (satelite != nullptr) {
         glPopMatrix();
     }
 
-
+    // Dibujar los hijos recursivamente
+    for (Planeta* hijo : hijos) {
+        hijo->dibujarPlaneta();
+    }
 }
 
-
-
-
 /**
- * Metodo que Dibuja una esfera con una cierta escala y detalle
- * @param escala : escala que tendra la esfera
- * detalle :  controla la "suavidad" o la cantidad de segmentos que se utilizan para aproximar la forma circular
+ * @brief Dibuja una esfera con una cierta escala y detalle.
+ * @param escala Escala de la esfera.
+ * @param detalle N煤mero de segmentos para aproximar la forma circular de la esfera.
  */
 void Planeta::dibujarEsfera(float escala) {
-
-    int detalle = 180; // Cantidad de segmentos para dibujar la esfera
+    int detalle = 500; // Aumentar el detalle para m谩s segmentos
 
     glPushMatrix();
-    glScaled(escala, escala, escala); // Escala la esfera seg鷑 el tama駉 proporcionado
+    glScaled(escala, escala, escala); // Escala la esfera seg煤n el tama帽o proporcionado
 
-    // Dibuja la esfera como un conjunto de l韓eas conectadas para simular la forma
+    // Dibuja la esfera como un conjunto de l铆neas conectadas para simular la forma
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < detalle; ++i) {
-        // Calcula los puntos en el per韒etro de la esfera usando funciones trigonom閠ricas
+        // Calcula los puntos en el per铆metro de la esfera usando funciones trigonom茅tricas
         glVertex2d(cos(2 * i * M_PI / detalle), sin(2 * i * M_PI / detalle));
     }
     glEnd();
     glPopMatrix();
 }
 
+/**
+ * M茅todos de acceso para obtener las propiedades del planeta.
+ * Estos m茅todos permiten obtener el nombre, tama帽o, velocidad orbital, etc., del planeta.
+ */
+float Planeta::get_radio() const {
+    return radio;
+}
+
+string Planeta::get_nombre() const {
+    return nombre;
+}
+
+double Planeta::get_velocidad_orbital() const {
+    return velocidadOrbital;
+}
+
+double Planeta::get_aphelion() const {
+    return aphelion;
+}
+
+double Planeta::get_perihelion() const {
+    return perihelion;
+}
+
+double Planeta::get_periodo_orbital() const {
+    return periodoOrbital;
+}
+
+double Planeta::get_rotacion() const {
+    return rotacion;
+}
+
+double Planeta::get_inclinacion_z() const {
+    return inclinacionZ;
+}
+
+double Planeta::get_inclinacion_y() const {
+    return inclinacionY;
+}
+
+double Planeta::get_tamano() const {
+    return tamano;
+}
+
+double Planeta::get_tiempo_delta() const {
+    return tiempoDelta;
+}
+
+double Planeta::get_ubicacion_actual_eje() const {
+    return ubicacionActualEje;
+}
+
+double Planeta::get_ubicacion_actual_sistema() const {
+    return ubicacionActualSistema;
+}
+
+double Planeta::get_p_x() const {
+    return pX;
+}
+
+double Planeta::get_p_y() const {
+    return pY;
+}
+
+double Planeta::get_p_z() const {
+    return pZ;
+}
+
+string Planeta::get_ruta_imagen() const {
+    return rutaImagen;
+}
+
+igvTextura * Planeta::get_textura() const {
+    return textura;
+}
+
+Planeta * Planeta::get_satelite() const {
+    return satelite;
+}
